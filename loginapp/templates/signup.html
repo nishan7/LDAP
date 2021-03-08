@@ -1,13 +1,37 @@
 {% extends 'base.html' %}
 
+
 {% block body %}
-    <h1 class="jumbotron"></h1>
+<script>
+    function Validate(){
+        var pw1 = document.getElementById('password1').value;
+        var pw2 = document.getElementById('password2').value;
+        if (pw1 === pw2){
+            document.getElementById('signupform').submit();   
+        }
+        else{
+            let passwordError = document.getElementById('passwordError');
+            passwordError.style.visibility = "visible";
+            passwordError.innerHTML = "Passwords Do not Match";   
+            document.getElementsByTagName('input').innerHTML = "";
+                
+        }
+        
+
+    }
+</script>
+
+<h1 class="jumbotron"></h1>
     <div class="mt-lg-5 container align-center w-50">
         <form id="signupform" method="post">
             <h2 class="form-signin-heading">Please Signup or <a href="/">Login</a></h2>
+            
+            <div id="passwordError" class="alert alert-danger text-center h3" style="visibility: hidden;"></div>
+            
             {% if context.error %}
-                <div id="passwordError" class="alert alert-danger text-center h3">{{ context.error }}</div>
+                <div class="alert alert-danger text-center h3">{{ context.error }}</div>
             {% endif %}
+
             <div class="form-group">
                 <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" ,
                        required>
@@ -23,13 +47,11 @@
             </div>
 
             <div>
-                <input id="form-button" type="submit" class="btn btn-lg btn-primary"></input>
+                <button id="form-button" name="Submit" onclick="Validate()" type="button" class="btn btn-lg btn-primary">Submit</button>
             </div>
 
         </form>
     </div>
-
-
 
 {% endblock body %}
 
