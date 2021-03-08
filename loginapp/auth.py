@@ -39,7 +39,7 @@ def add_user(server_uri, username, password):
     :param server_uri: LDAP Server Uri
     :param username: Username
     :param password: Password
-    :return: String: response
+    :return: String: response (success,entryAlreadyExists)
     """
     connection = connect_server(server_uri, "cn=admin,dc=example,dc=com", "login")
     connection.bind()
@@ -54,7 +54,6 @@ def add_user(server_uri, username, password):
 
     print(connection)
     res = connection.result
-
     return res['description']  # success, entryAlreadyExists
 
 # server_uri = 'ldap://127.0.0.53'
@@ -70,6 +69,12 @@ def add_user(server_uri, username, password):
 #
 # username = 'killl'
 # password = '123'
-#
+# connection.add('uid={},ou=users,dc=example,dc=com'.format(username),
+#                ['account', 'posixAccount', ],
+#                {'cn': '{}'.format(username),
+#                 'uidNumber': randint(1, 10000),
+#                 'userPassword': '{}'.format(password),
+#                 'gidNumber': 100,
+#                 'homeDirectory': '/home/{}'.format(username)})
 # #
 # print(connection.result)

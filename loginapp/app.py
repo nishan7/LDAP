@@ -7,7 +7,7 @@ base = "ou=users,dc=example,dc=com"
 
 
 @app.route('/signup', methods=['POST', 'GET'])
-def signup_users():
+def signup_user():
     context = {}
     if request.method == 'POST':
         username = request.form['username']
@@ -17,18 +17,24 @@ def signup_users():
         if password1 != password2:
             context['error'] = 'Password doesnot match'
             return render_template("signup.html", context=context)
-        else:
-            print(username, password1)
-            res = auth.add_user(server_uri,username, password1 )
-            print(res)
-            return redirect('/')
 
-    else:  # Get Request
+        else:
+            res = auth.add_user(server_uri, username, password1)
+            if res == "success":
+                return redirect('/')
+            elif res == 'entryAlreadyExists':
+                context['error'] = 'Username already exists'
+                return render_template("signup.html", context=context)
+            else:
+                context['error'] = 'Error'
+                return render_template("signup.html", context=context)
+
+    elif request.method == 'GET':
         return render_template("signup.html", context=context)
 
 
 @app.route("/", methods=['POST', 'GET'])
-def login_users():
+def login_user():
     context = {}
     if request.method == 'POST':
         username = request.form['username']
@@ -43,5 +49,5 @@ def login_users():
             context["error"] = "Invalid Username/Password"
             return render_template("login.html", context=context)
 
-    else:  # Get Request
+    elif request.method == 'GET':
         return render_template("login.html", context=context)
