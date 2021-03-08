@@ -1,0 +1,57 @@
+sudo apt install slapd ldap-utils
+systemctl status slapd
+
+configure ldap
+sudo dpkg-reconfigure slapd
+
+using example.com, can also use directory.example.com
+
+Checking config file
+sudo subl /etc/ldap/ldap.conf
+
+http://127.0.0.1/phpldapadmin/
+
+# Get ip address of ldap
+nslookup -type=srv _ldap._tcp.DOMAINNAME
+
+
+
+ldapsearch -x -b ou=people,dc=example,dc=com
+ldapwhoami -x -D uid=nishan,ou=users,dc=example,dc=com -H ldap://127.0.053 -W 
+
+
+
+dn: uid=nishan,ou=users,dc=example,dc=com
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: nishan
+uid: nishan
+uidNumber: 16859
+gidNumber: 100
+homeDirectory: /home/nishan
+loginShell: /bin/bash
+gecos: nishan
+userPassword: 123
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+
+
+# Better
+dn: uid=nishan,ou=users,dc=example,dc=com
+objectClass: account
+objectClass: posixAccount
+cn: nishan
+uid: nishan
+uidNumber: 16859
+gidNumber: 100
+homeDirectory: /home/nishan
+userPassword: 123
+
+
+ldapadd -x -W -D "cn=admin,dc=example,dc=com" -f add.ldif
+
+
+

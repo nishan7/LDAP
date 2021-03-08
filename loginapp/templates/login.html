@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1 class="jumbotron"></h1>
+    <div class="container align-center w-50">
+        <form class="form-signin" method="POST">
+            {% if context.error %}
+                <div class="alert alert-danger text-center h3">{{ context.error }}</div>
+            {% endif %}
+            <h2 class="form-signin-heading">Please login or <a href="/signup">Sign Up</a></h2>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus=""
+                   /> <br>
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" required=""/><br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock body %}
+
